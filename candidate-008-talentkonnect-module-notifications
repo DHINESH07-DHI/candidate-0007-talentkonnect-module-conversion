@@ -1,0 +1,21 @@
+<!-- Notification banner -->
+<div id="banner" style="background: yellow; padding: 10px; display: none;">
+  <span id="notifText">Loading...</span>
+  <button onclick="dismiss()">Dismiss</button>
+</div>
+
+<script>
+fetch("/api/notifications")
+  .then(res => res.json())
+  .then(data => {
+    if (data.length > 0) {
+      document.getElementById("notifText").innerText = data[0].message;
+      document.getElementById("banner").style.display = "block";
+    }
+  });
+
+function dismiss() {
+  fetch("/api/notifications/123/ack", { method: "POST" });
+  document.getElementById("banner").style.display = "none";
+}
+</script>
